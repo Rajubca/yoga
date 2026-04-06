@@ -80,7 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const html = await response.text();
 
             // Inject content
-            contentArea.innerHTML = html;
+            while (contentArea.firstChild) { contentArea.removeChild(contentArea.firstChild); }
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            while (doc.body.firstChild) { contentArea.appendChild(doc.body.firstChild); }
 
             // Re-initialize scripts specific to new content
             AOS.refresh();
@@ -194,13 +197,27 @@ function initPageSpecificScripts(pageName) {
                     const result = await response.json();
 
                     if (result.status === 'success') {
-                        msgContainer.innerHTML = `<div class="alert success"><i class="fas fa-check-circle"></i> ${result.message}</div>`;
+                        msgContainer.innerHTML = "";
+                        const div = document.createElement("div");
+                        div.className = "alert success";
+                        div.innerHTML = "<i class=\"fas fa-check-circle\"></i> ";
+                        div.appendChild(document.createTextNode(result.message));
+                        msgContainer.appendChild(div);
                         form.reset();
                     } else {
-                        msgContainer.innerHTML = `<div class="alert error"><i class="fas fa-exclamation-circle"></i> ${result.message}</div>`;
+                        msgContainer.innerHTML = "";
+                        const div = document.createElement("div");
+                        div.className = "alert error";
+                        div.innerHTML = "<i class=\"fas fa-exclamation-circle\"></i> ";
+                        div.appendChild(document.createTextNode(result.message));
+                        msgContainer.appendChild(div);
                     }
                 } catch (error) {
-                    msgContainer.innerHTML = `<div class="alert error"><i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.</div>`;
+                    msgContainer.innerHTML = "";
+                    const div = document.createElement("div");
+                    div.className = "alert error";
+                    div.innerHTML = "<i class=\"fas fa-exclamation-circle\"></i> An error occurred. Please try again.";
+                    msgContainer.appendChild(div);
                 } finally {
                     submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
