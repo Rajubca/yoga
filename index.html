@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga & Wellness | Meenaben B. Prajapati</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header id="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/" class="ajax-link" data-target="home">
+                    <img src="https://yoga.shivaservices.co.in/img/logo1.png" alt="Yoga Logo" onerror="this.src='https://via.placeholder.com/150x50?text=Yoga+Wellness'">
+                </a>
+            </div>
+
+            <nav id="main-nav">
+                <ul class="nav-links">
+                    <li><a href="/" class="ajax-link active" data-target="home">Home</a></li>
+                    <li><a href="/about" class="ajax-link" data-target="about">About</a></li>
+                    <li><a href="/services" class="ajax-link" data-target="services">Services</a></li>
+                    <li><a href="/transformation" class="ajax-link" data-target="transformation">Transformation</a></li>
+                    <li><a href="/gallery" class="ajax-link" data-target="gallery">Gallery</a></li>
+                    <li><a href="/contact" class="ajax-link" data-target="contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="/contact" class="btn btn-primary ajax-link" data-target="contact">Book Session</a>
+                <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Daily Quote Banner -->
+    <div class="daily-quote-banner">
+        <div class="container">
+            <p id="daily-quote-text">"Yoga is the journey of the self, through the self, to the self."</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area (AJAX loads here) -->
+    <main id="app-content">
+        <!-- Content will be injected here via JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-col about-col">
+                <h3>Meenaben B. Prajapati</h3>
+                <p>Embrace the harmony of yoga—find inner peace, boost your energy, and strengthen your body.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col links-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/about" class="ajax-link" data-target="about">About Us</a></li>
+                    <li><a href="/services" class="ajax-link" data-target="services">Classes</a></li>
+                    <li><a href="/gallery" class="ajax-link" data-target="gallery">Gallery</a></li>
+                    <li><a href="/contact" class="ajax-link" data-target="contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anand, Gujarat, India</p>
+                <p><i class="fas fa-phone"></i> +91 942 785 6360</p>
+                <p><i class="fas fa-envelope"></i> meenaben@yoga.shivaservices.co.in</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 Yoga & Wellness | Meenaben B. Prajapati. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919427856360" class="float-whatsapp" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Optional Music Toggle -->
+    <div class="music-toggle-container">
+        <button id="music-toggle" class="btn-icon" aria-label="Toggle Background Music">
+            <i class="fas fa-music"></i>
+        </button>
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
