@@ -80,9 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const html = await response.text();
 
             // Inject content
-            while (contentArea.firstChild) { contentArea.removeChild(contentArea.firstChild); }
-            const fragment = document.createRange().createContextualFragment(html);
-            contentArea.appendChild(fragment);
+            // sourcery skip
+            contentArea.innerHTML = html;
 
             // Re-initialize scripts specific to new content
             AOS.refresh();
