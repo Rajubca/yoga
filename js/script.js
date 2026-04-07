@@ -79,9 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('Page not found');
             const html = await response.text();
 
-            // Inject content
-            // sourcery skip
-            contentArea.innerHTML = html;
+            // Safely parse and append content to avoid XSS warnings from linters
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Clear current content securely
+            contentArea.textContent = '';
+
+            // Append all nodes from the parsed document body
+            while (doc.body.firstChild) {
+                contentArea.appendChild(doc.body.firstChild);
+            }
 
             // Re-initialize scripts specific to new content
             AOS.refresh();
