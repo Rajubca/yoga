@@ -81,9 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Inject content
             while (contentArea.firstChild) { contentArea.removeChild(contentArea.firstChild); }
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
-            while (doc.body.firstChild) { contentArea.appendChild(doc.body.firstChild); }
+            const fragment = document.createRange().createContextualFragment(html);
+            contentArea.appendChild(fragment);
 
             // Re-initialize scripts specific to new content
             AOS.refresh();
