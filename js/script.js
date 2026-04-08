@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = link.getAttribute('data-target');
 
             // Push state to history
-            const url = target === 'home' ? '/' : `/${target}`;
-            history.pushState({ page: target }, '', url);
+            const urlParams = target === 'home' ? '' : `?page=${target}`;
+            history.pushState({ page: target }, '', window.location.pathname + urlParams);
 
             loadPage(target);
         }
@@ -144,8 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initial Load based on path
-    const path = window.location.pathname.replace('/', '') || 'home';
-    loadPage(path);
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    const initialPage = pageParam || 'home';
+    loadPage(initialPage);
 });
 
 // Function to initialize logic specific to newly loaded fragments
