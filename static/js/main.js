@@ -24,9 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data) {
                 modalTitle.textContent = data.name;
                 modalImg.src = data.image_url;
-                // Preserve formatting
-                // sourcery skip
-                modalDesc.innerHTML = data.detailed_description.replace(/\n/g, '<br>');
+                // Preserve formatting securely
+                modalDesc.innerHTML = '';
+                const parts = data.detailed_description.split(/\n/g);
+                parts.forEach((part, index) => {
+                    modalDesc.appendChild(document.createTextNode(part));
+                    if (index < parts.length - 1) {
+                        modalDesc.appendChild(document.createElement('br'));
+                    }
+                });
 
                 modalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Prevent scrolling
