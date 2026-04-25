@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Harmony - Yoga & Wellness</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" data-aos="fade-down">
+        <div class="nav-brand">
+            <img src="{% static 'img/logo.png' %}" alt="Inner Harmony Logo">
+            <h1>Inner Harmony</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">The Need</a>
+            <a href="#yoga-types">Yoga Types</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2 data-aos="zoom-in">Find Your Inner Balance</h2>
+        <p data-aos="fade-up" data-aos-delay="200">Welcome to Inner Harmony Yoga & Wellness. Embark on a transformative journey to align your mind, body, and spirit through the ancient practice of yoga.</p>
+        <a href="#about" class="btn" data-aos="fade-up" data-aos-delay="400">Discover More</a>
+    </section>
+
+    <!-- The Need for Yoga -->
+    <section id="about">
+        <h2 class="section-title" data-aos="fade-up">The Need for Yoga in Our Life</h2>
+        <div class="need-section" data-aos="fade-up" data-aos-delay="200">
+            <p>In today's fast-paced, highly demanding world, stress and anxiety have become constant companions for many. The need for yoga and wellness practices has never been more critical. Yoga is not merely a physical exercise; it is a holistic approach to well-being that unites the body, mind, and breath.</p>
+            <br>
+            <p>Regular practice helps in reducing cortisol levels, improving flexibility, building strength, and fostering profound mental clarity. It teaches us mindfulness—the art of living in the present moment—allowing us to navigate life's challenges with grace and resilience. Embracing yoga is embracing a lifestyle of harmony, peace, and vibrant health.</p>
+        </div>
+    </section>
+
+    <!-- Types of Yoga -->
+    <section id="yoga-types">
+        <h2 class="section-title" data-aos="fade-up">Explore Yoga Types</h2>
+        <div class="yoga-grid">
+            {% for yoga in yoga_types %}
+            <div class="yoga-card" data-id="{{ yoga.id }}" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                <div class="yoga-img-wrapper">
+                    {% if yoga.image_url %}
+                    <img src="{{ yoga.image_url }}" alt="{{ yoga.name }}">
+                    {% else %}
+                    <img src="{% static 'img/logo.png' %}" alt="{{ yoga.name }}">
+                    {% endif %}
+                </div>
+                <div class="yoga-content">
+                    <h3>{{ yoga.name }}</h3>
+                    <p>{{ yoga.short_description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Yoga Detail Modal -->
+    <div class="modal-overlay" id="yoga-modal">
+        <div class="modal-content">
+            <i class="fas fa-times close-modal"></i>
+            <img src="" alt="Yoga Image" id="modal-img" class="modal-img">
+            <h2 id="modal-title" style="color: var(--primary-dark); margin-bottom: 15px;"></h2>
+            <div id="modal-desc" style="line-height: 1.8; color: #555;"></div>
+        </div>
+    </div>
+
+    <!-- Contact & Footer -->
+    <footer id="contact">
+        <h2 data-aos="fade-up">Connect With Us</h2>
+        <p data-aos="fade-up" data-aos-delay="100">Ready to start your wellness journey?</p>
+
+        <div class="contact-info" data-aos="fade-up" data-aos-delay="200">
+            {% if contact %}
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:{{ contact.email }}" style="color: white; text-decoration: none;">{{ contact.email }}</a>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-whatsapp"></i>
+                <a href="https://wa.me/{{ contact.whatsapp|cut:' ' }}" style="color: white; text-decoration: none;">{{ contact.whatsapp }}</a>
+            </div>
+            {% else %}
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@innerharmony.com</span>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-whatsapp"></i>
+                <span>+1 234 567 890</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <p style="margin-top: 50px; font-size: 0.9rem; opacity: 0.7;">&copy; 2024 Inner Harmony Yoga & Wellness. All rights reserved.</p>
+    </footer>
+
+    <!-- Pass Django data to JS safely -->
+    {{ yoga_data|json_script:"yoga-data-script" }}
+    <script>
+        window.yogaData = JSON.parse(document.getElementById('yoga-data-script').textContent);
+    </script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
