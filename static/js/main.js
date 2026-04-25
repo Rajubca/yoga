@@ -7,18 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // Subhashita Modal Logic
+
+    // Subhashita Modal Logic (Show only once per session)
     const subhashitaModal = document.getElementById('subhashita-modal');
     const closeSubhashitaBtn = document.querySelector('.close-subhashita');
 
     if (subhashitaModal && closeSubhashitaBtn) {
-        // Prevent scrolling initially if modal is open
-        document.body.style.overflow = 'hidden';
+        // Check sessionStorage to only show it on first arrival
+        if (!sessionStorage.getItem('subhashitaShown')) {
+            subhashitaModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            sessionStorage.setItem('subhashitaShown', 'true');
+        } else {
+            subhashitaModal.style.display = 'none';
+        }
 
         const closeSubhashita = () => {
             subhashitaModal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            // Also hide it completely so it doesn't block clicks
             setTimeout(() => {
                 subhashitaModal.style.display = 'none';
             }, 300);
@@ -33,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Modal Logic
+
 
     const modalsData = window.yogaData || {};
     const cards = document.querySelectorAll('.yoga-card');
