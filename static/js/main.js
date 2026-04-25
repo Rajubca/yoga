@@ -6,7 +6,34 @@ document.addEventListener('DOMContentLoaded', () => {
         offset: 100
     });
 
+
+    // Subhashita Modal Logic
+    const subhashitaModal = document.getElementById('subhashita-modal');
+    const closeSubhashitaBtn = document.querySelector('.close-subhashita');
+
+    if (subhashitaModal && closeSubhashitaBtn) {
+        // Prevent scrolling initially if modal is open
+        document.body.style.overflow = 'hidden';
+
+        const closeSubhashita = () => {
+            subhashitaModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Also hide it completely so it doesn't block clicks
+            setTimeout(() => {
+                subhashitaModal.style.display = 'none';
+            }, 300);
+        };
+
+        closeSubhashitaBtn.addEventListener('click', closeSubhashita);
+        subhashitaModal.addEventListener('click', (e) => {
+            if (e.target === subhashitaModal) {
+                closeSubhashita();
+            }
+        });
+    }
+
     // Modal Logic
+
     const modalsData = window.yogaData || {};
     const cards = document.querySelectorAll('.yoga-card');
     const modalOverlay = document.getElementById('yoga-modal');

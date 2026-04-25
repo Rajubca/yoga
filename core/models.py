@@ -23,3 +23,14 @@ class YogaType(models.Model):
 
     def __str__(self):
         return self.name
+
+class Subhashita(models.Model):
+    sanskrit_text = models.TextField(help_text="The Sanskrit text of the Subhashita")
+    english_meaning = models.TextField(help_text="The English translation or meaning")
+
+    class Meta:
+        verbose_name = "Subhashita"
+        verbose_name_plural = "Subhashitas"
+
+    def __str__(self):
+        return self.sanskrit_text[:50] + "..."
