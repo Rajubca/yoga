@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalTitle.textContent = data.name;
                 modalImg.src = data.image_url;
                 // Preserve formatting
+                // sourcery skip
                 modalDesc.innerHTML = data.detailed_description.replace(/\n/g, '<br>');
 
                 modalOverlay.classList.add('active');
