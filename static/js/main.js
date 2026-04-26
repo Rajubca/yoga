@@ -13,14 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSubhashitaBtn = document.querySelector('.close-subhashita');
 
     if (subhashitaModal && closeSubhashitaBtn) {
-        // Check sessionStorage to only show it on first arrival
-        if (!sessionStorage.getItem('subhashitaShown')) {
-            subhashitaModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            sessionStorage.setItem('subhashitaShown', 'true');
-        } else {
-            subhashitaModal.style.display = 'none';
-        }
+        // Show it unconditionally on every page load as requested by user
+        subhashitaModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
 
         const closeSubhashita = () => {
             subhashitaModal.classList.remove('active');
