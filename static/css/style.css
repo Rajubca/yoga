@@ -320,3 +320,22 @@ footer {
     gap: 20px;
   }
 }
+
+/* Additional Custom Styles */
+#yoga-search:focus {
+    border-color: var(--primary-color);
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#back-to-top:hover {
+    transform: translateY(-5px);
+    background: var(--primary-dark);
+}
+
+.messages-container {
+    pointer-events: none;
+}

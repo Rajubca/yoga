@@ -1,8 +1,19 @@
 from django.shortcuts import render
-from .models import ContactInfo, YogaType, Subhashita
+from .models import ContactInfo, YogaType, Subhashita, Inquiry
+from django.contrib import messages
 import random
 
 def home(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        if name and email and message:
+            Inquiry.objects.create(name=name, email=email, message=message)
+            messages.success(request, "Thank you! Your message has been sent successfully.")
+        else:
+            messages.error(request, "Please fill out all fields.")
+
     contact_info = ContactInfo.objects.first()
     yoga_types = YogaType.objects.all()
 

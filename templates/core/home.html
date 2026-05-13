@@ -22,8 +22,30 @@
 </head>
 <body>
 
+
     <!-- Background Animation -->
+    {% if messages %}
+    <div class="messages-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999;">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}" style="background: white; padding: 15px 25px; border-left: 5px solid {% if message.tags == 'success' %}#2ecc71{% else %}#e74c3c{% endif %}; border-radius: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; animation: slideInRight 0.5s ease forwards;">
+            <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}" style="color: {% if message.tags == 'success' %}#2ecc71{% else %}#e74c3c{% endif %};"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(() => {
+            const msgs = document.querySelectorAll('.message');
+            msgs.forEach(msg => {
+                msg.style.opacity = '0';
+                msg.style.transition = 'opacity 0.5s';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+    </script>
+    {% endif %}
     <div class="bg-animation">
+
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
@@ -62,12 +84,18 @@
     <!-- Types of Yoga -->
     <section id="yoga-types">
         <h2 class="section-title" data-aos="fade-up">Explore Yoga Types</h2>
-        <div class="yoga-grid">
+
+        <div class="search-container" data-aos="fade-up" style="max-width: 600px; margin: 0 auto 40px auto; position: relative;">
+            <i class="fas fa-search" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+            <input type="text" id="yoga-search" placeholder="Search for a yoga pose or breathwork..." style="width: 100%; padding: 15px 20px 15px 50px; border-radius: 30px; border: 2px solid transparent; box-shadow: 0 5px 15px rgba(0,0,0,0.05); font-size: 1rem; outline: none; transition: border-color 0.3s; box-sizing: border-box;">
+        </div>
+
+        <div class="yoga-grid" id="yoga-grid">
             {% for yoga in yoga_types %}
             <div class="yoga-card" data-id="{{ yoga.id }}" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <div class="yoga-img-wrapper">
                     {% if yoga.image_url %}
-                    <img src="{{ yoga.image_url }}" alt="{{ yoga.name }}">
+                    <img src="{{ yoga.image_url }}" alt="{{ yoga.name }}" loading="lazy">
                     {% else %}
                     <img src="{% static 'img/logo.png' %}" alt="{{ yoga.name }}">
                     {% endif %}
@@ -94,6 +122,34 @@
             <div style="font-size: 1.1rem; color: #555; font-style: italic; line-height: 1.6;">
                 "{{ subhashita.english_meaning }}"
             </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
+                <button onclick="shareSubhashita()" style="padding: 10px 20px; background: #25D366; color: white; border: none; border-radius: 25px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                    <i class="fab fa-whatsapp"></i> Share
+                </button>
+                <button onclick="copySubhashita()" style="padding: 10px 20px; background: #f1f1f1; color: #333; border: none; border-radius: 25px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+
+            <script>
+                const subText = `Thought of the Moment:
+
+${document.createElement('textarea').innerHTML = "{{ subhashita.sanskrit_text|escapejs }}"}
+
+"${document.createElement('textarea').innerHTML = "{{ subhashita.english_meaning|escapejs }}"}"
+
+- Inner Harmony Yoga & Wellness`;
+                function shareSubhashita() {
+                    const encodedText = encodeURIComponent(subText);
+                    window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+                }
+                function copySubhashita() {
+                    navigator.clipboard.writeText(subText).then(() => {
+                        alert('Copied to clipboard!');
+                    });
+                }
+            </script>
         </div>
     </div>
     {% endif %}
@@ -111,6 +167,17 @@
 
     <!-- Contact & Footer -->
     <footer id="contact">
+        <div style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; margin-bottom: 50px;" data-aos="fade-up">
+            <h2 style="margin-top: 0;">Send us a Message</h2>
+            <form method="POST" action="{% url 'home' %}#contact" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Your Name" required style="padding: 15px; border-radius: 10px; border: none; font-family: 'Poppins', sans-serif;">
+                <input type="email" name="email" placeholder="Your Email" required style="padding: 15px; border-radius: 10px; border: none; font-family: 'Poppins', sans-serif;">
+                <textarea name="message" placeholder="How can we help you?" rows="4" required style="padding: 15px; border-radius: 10px; border: none; font-family: 'Poppins', sans-serif; resize: vertical;"></textarea>
+                <button type="submit" class="btn" style="background-color: var(--primary-color); align-self: flex-start; margin-top: 10px; font-family: 'Poppins', sans-serif; font-weight: 600;">Send Message</button>
+            </form>
+        </div>
+
         <h2 data-aos="fade-up">Connect With Us</h2>
         <p data-aos="fade-up" data-aos-delay="100">Ready to start your wellness journey?</p>
 
@@ -150,5 +217,11 @@
 
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- Back to Top -->
+    <a href="#home" id="back-to-top" style="position: fixed; bottom: 30px; right: 30px; background: var(--primary-color); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; z-index: 1000;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
 </body>
 </html>

@@ -34,3 +34,17 @@ class Subhashita(models.Model):
 
     def __str__(self):
         return self.sanskrit_text[:50] + "..."
+
+class Inquiry(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Inquiry"
+        verbose_name_plural = "Inquiries"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Inquiry from {self.name} ({self.email})"
