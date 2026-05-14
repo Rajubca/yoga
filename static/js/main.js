@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 800,
         once: true,
         offset: 100
+    });
 
     // Search Filter Logic
     const searchInput = document.getElementById('yoga-search');
@@ -37,23 +38,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
 
-
-
-
-    // Subhashita Modal Logic (Show only once per session)
+    // Subhashita Modal Logic (Show unconditionally)
     const subhashitaModal = document.getElementById('subhashita-modal');
     const closeSubhashitaBtn = document.querySelector('.close-subhashita');
 
     if (subhashitaModal && closeSubhashitaBtn) {
         // Show it unconditionally on every page load as requested by user
-        subhashitaModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        subhashitaModal.style.display = 'flex'; // Ensure it's not 'none'
+
+        // Small timeout to allow CSS transition to work after setting display
+        setTimeout(() => {
+            subhashitaModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }, 50);
 
         const closeSubhashita = () => {
             subhashitaModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
             setTimeout(() => {
                 subhashitaModal.style.display = 'none';
             }, 300);
@@ -68,18 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Modal Logic
-
-
     const modalsData = window.yogaData || {};
-    const cards = document.querySelectorAll('.yoga-card');
     const modalOverlay = document.getElementById('yoga-modal');
     const closeBtn = document.querySelector('.close-modal');
-
     const modalTitle = document.getElementById('modal-title');
     const modalImg = document.getElementById('modal-img');
     const modalDesc = document.getElementById('modal-desc');
 
-    cards.forEach(card => {
+    allCards.forEach(card => {
         card.addEventListener('click', () => {
             const yogaId = card.getAttribute('data-id');
             const data = modalsData[yogaId];
@@ -87,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data) {
                 modalTitle.textContent = data.name;
                 modalImg.src = data.image_url;
+
                 // Preserve formatting securely
                 modalDesc.innerHTML = '';
                 const parts = data.detailed_description.split(/\n/g);
@@ -108,10 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'auto';
     };
 
-    closeBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            closeModal();
-        }
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    }
 });
