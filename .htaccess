@@ -1,0 +1,8 @@
+# Passenger configurations for Python on cPanel
+PassengerAppType wsgi
+PassengerStartupFile passenger_wsgi.py
+PassengerAppRoot /home/username/public_html
+PassengerMaxProcesses 4
+
+# Other common settings can be uncommented if needed
+# PassengerPython /home/username/virtualenv/app/3.x/bin/python
